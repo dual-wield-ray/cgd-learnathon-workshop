@@ -1,14 +1,8 @@
-using System.Collections.Generic;
-using System.Text;
-using M2MqttUnity;
 using MQTTnet;
 using MQTTnet.Client;
 using UnityEngine;
-using uPLibrary.Networking.M2Mqtt.Messages;
-using Newtonsoft.Json;
-using MQTTnet.Extensions;
 
-public class MQTTClient : UnityMQTTClient
+public class MQTTClient : WebSocketMQTTClient
 {
     [SerializeField] private StringEvent messageReceived;
 
@@ -37,27 +31,22 @@ public class MQTTClient : UnityMQTTClient
         message = message.Replace("\\", "");
         message = message.Replace("\"{", "{");
         message = message.Replace("}\"", "}");
-        
-        Debug.Log("Received message: " + message);
-        var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(message);
-        
-        string payload = dict["msg"];
-        if (!dict.ContainsKey("msg"))
-        {
-            Debug.LogError("Message was received, but did not contain the 'msg' key. " +
-                           "Make sure what was sent is of the form:" +
-                           "{\n" +
-                           "    \"msg\": \"YOUR_MESSAGE\"\n" +
-                           "}");
-            return;
-        }
-        
-        messageReceived.Raise(payload);
-    }
 
-    public void Publish(string topic, string message)
-    {
-        Debug.Log($"Publishing message: {message} + to topic: {topic}");
-        PublishMessage(topic, JsonConvert.SerializeObject(message), 2);
+        message = message.Trim('{', '}', ' ', '\n');
+        message = message.Remove(0, "\"msg:\" ".Length);
+        message = message.Trim('\"');
+        
+        // if (!dict.ContainsKey("msg"))
+        // {
+        //     Debug.LogError("Message was received, but did not contain the 'msg' key. " +
+        //                    "Make sure what was sent is of the form:" +
+        //                    "{\n" +
+        //                    "    \"msg\": \"YOUR_MESSAGE\"\n" +
+        //                    "}");
+        //     return;
+        // }
+        
+        Debug.Log("Raising message: " + message);
+        messageReceived.Raise(message);
     }
 }

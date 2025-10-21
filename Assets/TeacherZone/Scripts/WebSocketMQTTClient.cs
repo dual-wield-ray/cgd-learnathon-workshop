@@ -10,18 +10,9 @@ using MQTTnet.Client.Options;
 using MQTTnet.Client.Receiving;
 using UnityEngine;
 
-public class UnityMQTTClient : MonoBehaviour
+public class WebSocketMQTTClient : MonoBehaviour
 {
-    [Header("MQTT broker configuration")]
-    [Tooltip("IP address or URL of the host running the broker")]
     public string brokerAddress = "127.0.0.1";
-    [Tooltip("Port where the broker accepts connections")]
-    public int brokerPort = 1883;
-    
-    [Tooltip("UserName for the MQTT broker. Keep blank if no user name is required.")]
-    public string mqttUserName;
-    [Tooltip("Password for the MQTT broker. Keep blank if no password is required.")]
-    public string mqttPassword;
 
     protected IMqttClient Client;
     protected IMqttClientOptions ClientOptions;
@@ -35,10 +26,8 @@ public class UnityMQTTClient : MonoBehaviour
 
         ClientOptions = new MqttClientOptionsBuilder()
             .WithClientId(Guid.NewGuid().ToString())
-            .WithTcpServer(brokerAddress, brokerPort)
-            .WithCredentials(mqttUserName, mqttPassword)
-            .WithCleanSession(true)
-            //.WithTls()
+            .WithWebSocketServer(brokerAddress)
+            .WithCleanSession()
             .WithKeepAlivePeriod(new TimeSpan(0, 1, 0))
             .Build();
         

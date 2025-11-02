@@ -1,10 +1,11 @@
-using System;
 using UnityEngine;
 
 public class ParticleController : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem particleSystem;
+    // To control the particles
+    [SerializeField] private ParticleSystem particleSys;
 
+    // To bind to our message event
     [SerializeField] private StringEvent messageReceived;
 
     private void OnEnable()
@@ -24,11 +25,18 @@ public class ParticleController : MonoBehaviour
         // Hex colors can also be used, see here: https://www.w3schools.com/colors/colors_names.asp. For example, to send 'AliceBlue', the message would need to be '#F0F8FF'
         if (ColorUtility.TryParseHtmlString(message, out Color result))
         {
+            Debug.Log($"Received color: {result}");
+            
             // We received a good color, assign it to the particle system
-            var main = particleSystem.main;
+            var main = particleSys.main;
             main.startColor = result;
+            
+            // Emit a single particle (one per message)
+            particleSys.Emit(1);
         }
-        
-        particleSystem.Emit(1);
+        else
+        {
+            Debug.LogError($"Could not parse color for particle system: {message}");
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Authentication;
 using MQTTnet.Certificates;
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace MQTTnet.Server
 {

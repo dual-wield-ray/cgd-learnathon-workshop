@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfe0777eaf7ad9a45b3d467708c77dde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParticleController
-  particleSystem: {fileID: 898940602}
+  particleSys: {fileID: 898940602}
   messageReceived: {fileID: 11400000, guid: c318357ca3ba3e6479101b399ab7eadf, type: 2}
 --- !u!1 &1539691596
 GameObject:
@@ -291,7 +291,7 @@ Transform:
   m_GameObject: {fileID: 1539691596}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -447,8 +447,8 @@ Transform:
   m_GameObject: {fileID: 1978416676}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -0, z: 1.35}
-  m_LocalScale: {x: 25, y: 25, z: 1}
+  m_LocalPosition: {x: -0, y: -0, z: 0}
+  m_LocalScale: {x: 19.2, y: 10.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -527,7 +527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8593033890456814479, guid: ddac98ea3671a9d4e87e44eba4639faa, type: 3}
       propertyPath: ShapeModule.m_Scale.y
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8593033890456814479, guid: ddac98ea3671a9d4e87e44eba4639faa, type: 3}
       propertyPath: EmissionModule.enabled

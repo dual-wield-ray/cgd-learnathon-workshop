@@ -15,7 +15,6 @@ public class StringEventEditor : Editor
         GUILayout.Label("These messages are *not* going to be sent over the network!");
         GUILayout.Label("This is just for testing; the real messages will be sent from other devices!");
         
-        
         EditorGUILayout.Space();
         _text = EditorGUILayout.TextField("Message", _text);
         if (GUILayout.Button("Send!"))

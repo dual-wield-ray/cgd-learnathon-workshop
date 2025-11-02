@@ -15,37 +15,37 @@ public class WebSocketMQTTClient : MonoBehaviour
     public string brokerAddress = "127.0.0.1";
 
     protected IMqttClient Client;
-    protected IMqttClientOptions ClientOptions;
     
-    protected Queue<string> messageQueue = new();
+    private IMqttClientOptions _clientOptions;
+    private readonly Queue<string> _messageQueue = new();
 
     private void Start()
     {
         var factory = new MqttFactory();
         Client = factory.CreateMqttClient();
 
-        ClientOptions = new MqttClientOptionsBuilder()
+        _clientOptions = new MqttClientOptionsBuilder()
             .WithClientId(Guid.NewGuid().ToString())
             .WithWebSocketServer(brokerAddress)
             .WithCleanSession()
             .WithKeepAlivePeriod(new TimeSpan(0, 1, 0))
             .Build();
         
-        Client.ConnectAsync(ClientOptions);
+        Client.ConnectAsync(_clientOptions);
         
         Client.ApplicationMessageReceivedHandler = new MqttApplicationMessageReceivedHandlerDelegate(e =>
         {
-            messageQueue.Enqueue(Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
+            _messageQueue.Enqueue(Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
         });
 
-        Client.ConnectedHandler = new MqttClientConnectedHandlerDelegate(e =>
+        Client.ConnectedHandler = new MqttClientConnectedHandlerDelegate(_ =>
         {
             OnConnect();
             SubscribeTopics();
             return Task.CompletedTask;
         });
 
-        Client.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(e =>
+        Client.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(_ =>
         {
             UnsubscribeTopics();
             OnDisconnect();
@@ -55,9 +55,9 @@ public class WebSocketMQTTClient : MonoBehaviour
 
     private void Update()
     {
-        while (messageQueue.Count > 0)
+        while (_messageQueue.Count > 0)
         {
-            var msg = messageQueue.Dequeue();
+            string msg = _messageQueue.Dequeue();
             OnMessage(msg);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using MQTTnet.Client.Connecting;
+#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace MQTTnet.Client.Disconnecting
 {

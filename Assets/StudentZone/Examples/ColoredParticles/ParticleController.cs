@@ -31,12 +31,8 @@ public class ParticleController : MonoBehaviour
             var main = particleSys.main;
             main.startColor = result;
             
-            // Emit a single particle (one per message)
-            particleSys.Emit(1);
         }
-        else
-        {
-            Debug.LogError($"Could not parse color for particle system: {message}");
-        }
+        // Emit a single particle (one per message)
+        particleSys.Emit(1);
     }
 }
